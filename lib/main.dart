@@ -1,8 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sleepy_app/state.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(ChangeNotifierProvider(
+      create: (context) => TogglesModel(),
+      child: const MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -28,10 +33,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Color mainColor = const Color(0XFF2F9EEF);
-  bool isTapped = false;
+  // bool isTapped = false;
+  // var tapState = List<int>.filled(4, 0);
 
   @override
   Widget build(BuildContext context) {
+    // final isWifiButtonOffMode = Provider.of<TogglesModel>(context).getState;
+    // final toggleWifiButton = Provider.of<TogglesModel>(context).toggle();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -42,14 +50,27 @@ class _MyHomePageState extends State<MyHomePage> {
             fontSize: 24,
           ),
         ),
-        leading: Icon(
-          Icons.menu,
-          color: mainColor,
-          size: 27,
-        ),
+        leading: IconButton(
+            onPressed: null,
+            icon: Icon(
+              Icons.menu,
+              color: mainColor,
+              size: 25,
+            )),
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
+        actions: const [
+          IconButton(
+            tooltip: 'Dark Mode',
+            onPressed: null,
+            icon: Icon(
+              Icons.dark_mode_outlined,
+              color: Color(0XFF2F9EEF),
+              size: 25,
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -76,69 +97,19 @@ class _MyHomePageState extends State<MyHomePage> {
             // color: Colors.amber,
             margin: const EdgeInsets.only(top: 10),
             padding: const EdgeInsets.all(8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isTapped ? isTapped = false : isTapped = true;
-                      });
-                      print(isTapped);
-                      print("Tapped the wifi container");
-                    },
-                    child: Container(
-                        width: 86,
-                        height: 86,
-                        decoration: BoxDecoration(
-                          color: mainColor,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: isTapped
-                            ? Icon(
-                                Icons.wifi_rounded,
-                                size: 62,
-                                color: Colors.white,
-                              )
-                            : Icon(
-                                Icons.wifi_off_rounded,
-                                size: 62,
-                                color: Colors.white,
-                              )),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    child: Text(
-                      'Wi-Fi',
-                      style: TextStyle(
-                        color: mainColor,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                ]),
-                Column(children: [
-                  Icon(
-                    Icons.wifi,
-                    size: 86,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    child: Text('Turn off Wi-Fi'),
-                  ),
-                ]),
-                Column(children: [
-                  Icon(
-                    Icons.wifi,
-                    size: 86,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    child: Text('Turn off Wi-Fi'),
-                  ),
-                ]),
-              ],
+            child: Center(
+              child: Wrap(
+                spacing: 30,
+                runSpacing: 20,
+                alignment: WrapAlignment.spaceAround,
+                direction: Axis.horizontal,
+                children: [
+                  iconBuilder(mainColor, 'Wi-Fi'),
+                  iconBuilder(mainColor, 'Bluetooth'),
+                  iconBuilder(mainColor, 'Screen'),
+                  iconBuilder(mainColor, 'Sound Mode'),
+                ],
+              ),
             ),
           ),
         ],
@@ -147,4 +118,44 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+Column iconBuilder(Color color, String label) {
+  return Column(children: [
+    GestureDetector(
+      onTap: () {},
+      child: Container(
+        width: 86,
+        height: 86,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: iconChoose(false, label),
+      ),
+    ),
+    Container(
+      margin: const EdgeInsets.only(top: 8),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: color,
+          fontSize: 14,
+        ),
+      ),
+    ),
+  ]);
+}
 
+Icon iconChoose(bool isOn, String label) {
+  // late labels = List<String>;
+  return isOn
+      ? Icon(
+          Icons.wifi_rounded,
+          size: 62,
+          color: Colors.white,
+        )
+      : Icon(
+          Icons.wifi_off_rounded,
+          size: 62,
+          color: Colors.white,
+        );
+}

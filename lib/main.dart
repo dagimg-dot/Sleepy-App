@@ -106,6 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
+          // Row 3: Counter Box
+          
         ],
       ),
     );
@@ -113,7 +115,6 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 Column iconBuilder(Color color, String label, BuildContext context) {
-  bool state;
   return Column(children: [
     GestureDetector(
       onTap: () {
@@ -121,30 +122,18 @@ Column iconBuilder(Color color, String label, BuildContext context) {
           case 'Wi-Fi':
             Provider.of<TogglesModel>(context, listen: false)
                 .toggleWifiButton();
-            state = Provider.of<TogglesModel>(context, listen: false)
-                .getWifiButtonState;
-            print(state);
             break;
           case 'Bluetooth':
             Provider.of<TogglesModel>(context, listen: false)
                 .toggleBluetoothButton();
-            state = Provider.of<TogglesModel>(context, listen: false)
-                .getBluetoothButtonState;
-            print(state);
             break;
           case 'Screen':
             Provider.of<TogglesModel>(context, listen: false)
                 .toggleDoNotDisturbButton();
-            state = Provider.of<TogglesModel>(context, listen: false)
-                .getScreenButtonState;
-            print(state);
             break;
           case 'Sound Mode':
             Provider.of<TogglesModel>(context, listen: false)
                 .toggleAirplaneModeButton();
-            state = Provider.of<TogglesModel>(context, listen: false)
-                .getDoNotDisturbButtonState;
-            print(state);
             break;
         }
       },

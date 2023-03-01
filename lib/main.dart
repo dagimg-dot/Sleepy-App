@@ -1,17 +1,15 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sleepy_app/state.dart';
 
 void main() => runApp(ChangeNotifierProvider(
-      create: (context) => TogglesModel(),
-      child: const MyApp(),
+      create: (_) => TogglesModel(),
+      child: MyApp(),
     ));
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,27 +17,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   Color mainColor = const Color(0XFF2F9EEF);
-  bool isTapped = false;
-  // var tapState = List<int>.filled(4, 0);
+
 
   @override
   Widget build(BuildContext context) {
-    // final isWifiButtonOffMode = Provider.of<TogglesModel>(context).getState;
-    // final toggleWifiButton = Provider.of<TogglesModel>(context).toggle();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -93,21 +86,25 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           // Row 2: The Icons
-          Container(
-            // color: Colors.amber,
-            margin: const EdgeInsets.only(top: 10),
-            padding: const EdgeInsets.all(8),
-            child: Wrap(
-              spacing: 30,
-              runSpacing: 20,
-              alignment: WrapAlignment.spaceAround,
-              children: [
-                iconBuilder(mainColor, 'Wi-Fi',isTapped,),
-                iconBuilder(mainColor, 'Bluetooth'),
-                iconBuilder(mainColor, 'Screen'),
-                iconBuilder(mainColor, 'Sound Mode'),
-              ],
-            ),
+          Consumer<TogglesModel>(
+            builder: (context, togglesModel,child){
+              return Container(
+                // color: Colors.amber,
+                margin: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.all(8),
+                child: Wrap(
+                  spacing: 30,
+                  runSpacing: 20,
+                  alignment: WrapAlignment.spaceAround,
+                  children: [
+                    iconBuilder(mainColor, 'Wi-Fi', context),
+                    iconBuilder(mainColor, 'Bluetooth', context),
+                    iconBuilder(mainColor, 'Screen', context),
+                    iconBuilder(mainColor, 'Sound Mode', context),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -115,11 +112,41 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-Column iconBuilder(Color color, String label,bool isTapped) {
+Column iconBuilder(Color color, String label, BuildContext context) {
+  bool state;
   return Column(children: [
     GestureDetector(
       onTap: () {
-        
+        switch (label) {
+          case 'Wi-Fi':
+            Provider.of<TogglesModel>(context, listen: false)
+                .toggleWifiButton();
+            state = Provider.of<TogglesModel>(context, listen: false)
+                .getWifiButtonState;
+            print(state);
+            break;
+          case 'Bluetooth':
+            Provider.of<TogglesModel>(context, listen: false)
+                .toggleBluetoothButton();
+            state = Provider.of<TogglesModel>(context, listen: false)
+                .getBluetoothButtonState;
+            print(state);
+            break;
+          case 'Screen':
+            Provider.of<TogglesModel>(context, listen: false)
+                .toggleDoNotDisturbButton();
+            state = Provider.of<TogglesModel>(context, listen: false)
+                .getScreenButtonState;
+            print(state);
+            break;
+          case 'Sound Mode':
+            Provider.of<TogglesModel>(context, listen: false)
+                .toggleAirplaneModeButton();
+            state = Provider.of<TogglesModel>(context, listen: false)
+                .getDoNotDisturbButtonState;
+            print(state);
+            break;
+        }
       },
       child: Container(
         width: 86,
@@ -128,7 +155,7 @@ Column iconBuilder(Color color, String label,bool isTapped) {
           color: color,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: iconChoose(true, label),
+        child: iconChoose(label, context),
       ),
     ),
     Container(
@@ -144,61 +171,65 @@ Column iconBuilder(Color color, String label,bool isTapped) {
   ]);
 }
 
-Icon iconChoose(bool isOn, String label) {
-  if (isOn == false) {
-    if (label == 'Wi-Fi') {
+Icon iconChoose(String label, BuildContext context) {
+  if (label == 'Wi-Fi') {
+    if (Provider.of<TogglesModel>(context, listen: false).getWifiButtonState) {
+      return Icon(
+        Icons.wifi_rounded,
+        size: 62,
+        color: Colors.white,
+      );
+    } else {
       return Icon(
         Icons.wifi_off_rounded,
         size: 62,
         color: Colors.white,
       );
     }
-    if (label == 'Bluetooth') {
+  }
+  if (label == 'Bluetooth') {
+    if (Provider.of<TogglesModel>(context, listen: false)
+        .getBluetoothButtonState) {
       return Icon(
-        Icons.bluetooth_disabled_rounded,
+        Icons.bluetooth,
+        size: 62,
+        color: Colors.white,
+      );
+    } else {
+      return Icon(
+        Icons.bluetooth_disabled,
         size: 62,
         color: Colors.white,
       );
     }
-    if (label == 'Screen') {
+  }
+  if (label == 'Screen') {
+    if (Provider.of<TogglesModel>(context, listen: false)
+        .getScreenButtonState) {
+      return Icon(
+        Icons.phone_android_rounded,
+        size: 62,
+        color: Colors.white,
+      );
+    } else {
       return Icon(
         Icons.mobile_off_rounded,
         size: 62,
         color: Colors.white,
       );
     }
-    if (label == 'Sound Mode') {
+  }
+  if (label == 'Sound Mode') {
+    if (Provider.of<TogglesModel>(context, listen: false)
+        .getDoNotDisturbButtonState) {
       return Icon(
-        Icons.volume_off_rounded,
+        Icons.volume_up,
         size: 62,
         color: Colors.white,
       );
-    }
-  } else {
-    if (label == 'Wi-Fi') {
+    } else {
       return Icon(
-        Icons.wifi_rounded,
-        size: 62,
-        color: Colors.white,
-      );
-    }
-    if (label == 'Bluetooth') {
-      return Icon(
-        Icons.bluetooth_rounded,
-        size: 62,
-        color: Colors.white,
-      );
-    }
-    if (label == 'Screen') {
-      return Icon(
-        Icons.phone_android_rounded,
-        size: 62,
-        color: Colors.white,
-      );
-    }
-    if (label == 'Sound Mode') {
-      return Icon(
-        Icons.volume_up_rounded,
+        Icons.volume_off,
         size: 62,
         color: Colors.white,
       );
@@ -206,3 +237,4 @@ Icon iconChoose(bool isOn, String label) {
   }
   return Icon(Icons.not_accessible);
 }
+

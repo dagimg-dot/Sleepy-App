@@ -33,7 +33,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Color mainColor = const Color(0XFF2F9EEF);
-  // bool isTapped = false;
+  bool isTapped = false;
   // var tapState = List<int>.filled(4, 0);
 
   @override
@@ -97,19 +97,16 @@ class _MyHomePageState extends State<MyHomePage> {
             // color: Colors.amber,
             margin: const EdgeInsets.only(top: 10),
             padding: const EdgeInsets.all(8),
-            child: Center(
-              child: Wrap(
-                spacing: 30,
-                runSpacing: 20,
-                alignment: WrapAlignment.spaceAround,
-                direction: Axis.horizontal,
-                children: [
-                  iconBuilder(mainColor, 'Wi-Fi'),
-                  iconBuilder(mainColor, 'Bluetooth'),
-                  iconBuilder(mainColor, 'Screen'),
-                  iconBuilder(mainColor, 'Sound Mode'),
-                ],
-              ),
+            child: Wrap(
+              spacing: 30,
+              runSpacing: 20,
+              alignment: WrapAlignment.spaceAround,
+              children: [
+                iconBuilder(mainColor, 'Wi-Fi',isTapped,),
+                iconBuilder(mainColor, 'Bluetooth'),
+                iconBuilder(mainColor, 'Screen'),
+                iconBuilder(mainColor, 'Sound Mode'),
+              ],
             ),
           ),
         ],
@@ -118,10 +115,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-Column iconBuilder(Color color, String label) {
+Column iconBuilder(Color color, String label,bool isTapped) {
   return Column(children: [
     GestureDetector(
-      onTap: () {},
+      onTap: () {
+        
+      },
       child: Container(
         width: 86,
         height: 86,
@@ -129,7 +128,7 @@ Column iconBuilder(Color color, String label) {
           color: color,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: iconChoose(false, label),
+        child: iconChoose(true, label),
       ),
     ),
     Container(
@@ -146,16 +145,64 @@ Column iconBuilder(Color color, String label) {
 }
 
 Icon iconChoose(bool isOn, String label) {
-  // late labels = List<String>;
-  return isOn
-      ? Icon(
-          Icons.wifi_rounded,
-          size: 62,
-          color: Colors.white,
-        )
-      : Icon(
-          Icons.wifi_off_rounded,
-          size: 62,
-          color: Colors.white,
-        );
+  if (isOn == false) {
+    if (label == 'Wi-Fi') {
+      return Icon(
+        Icons.wifi_off_rounded,
+        size: 62,
+        color: Colors.white,
+      );
+    }
+    if (label == 'Bluetooth') {
+      return Icon(
+        Icons.bluetooth_disabled_rounded,
+        size: 62,
+        color: Colors.white,
+      );
+    }
+    if (label == 'Screen') {
+      return Icon(
+        Icons.mobile_off_rounded,
+        size: 62,
+        color: Colors.white,
+      );
+    }
+    if (label == 'Sound Mode') {
+      return Icon(
+        Icons.volume_off_rounded,
+        size: 62,
+        color: Colors.white,
+      );
+    }
+  } else {
+    if (label == 'Wi-Fi') {
+      return Icon(
+        Icons.wifi_rounded,
+        size: 62,
+        color: Colors.white,
+      );
+    }
+    if (label == 'Bluetooth') {
+      return Icon(
+        Icons.bluetooth_rounded,
+        size: 62,
+        color: Colors.white,
+      );
+    }
+    if (label == 'Screen') {
+      return Icon(
+        Icons.phone_android_rounded,
+        size: 62,
+        color: Colors.white,
+      );
+    }
+    if (label == 'Sound Mode') {
+      return Icon(
+        Icons.volume_up_rounded,
+        size: 62,
+        color: Colors.white,
+      );
+    }
+  }
+  return Icon(Icons.not_accessible);
 }

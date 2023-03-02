@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +29,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Color mainColor = const Color(0XFF2F9EEF);
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             padding: const EdgeInsets.all(10),
             // color: Colors.amber,
-            margin: const EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: 3),
             child: Align(
               // alignment: Alignment.center,
               child: Text(
@@ -87,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           // Row 2: The Icons
           Consumer<TogglesModel>(
-            builder: (context, togglesModel,child){
+            builder: (context, togglesModel, child) {
               return Container(
                 // color: Colors.amber,
                 margin: const EdgeInsets.only(top: 10),
@@ -107,7 +106,128 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           // Row 3: Counter Box
-          
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Timer Started",
+                  style: TextStyle(
+                    color: Color(0XFF2F9EEF),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                  )),
+              Container(
+                margin: const EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  color: mainColor,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Text(
+                  '00:00',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // Row 4: Add Button
+          Container(
+            margin: const EdgeInsets.only(top: 10),
+            child: InkWell(
+              onTap: () {},
+              child: Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: mainColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    '+',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ),
+          // Row 5: Input Box
+          Container(
+            margin: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.all(8),
+            child: TextField(
+              decoration: InputDecoration(
+                icon: Icon(
+                  Icons.timer,
+                  color: mainColor,
+                ),
+                hintText: 'Set timer',
+                hintStyle: TextStyle(
+                  color: Color(0XFF2F9EEF),
+                  fontSize: 15,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: mainColor,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: mainColor,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // Row 6: Common minutes
+          Consumer<TogglesModel>(
+            builder: (context, togglesModel, child) {
+              return Container(
+                // color: Colors.amber,
+                margin: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.all(8),
+                child: Wrap(
+                  spacing: 25,
+                  runSpacing: 20,
+                  alignment: WrapAlignment.spaceAround,
+                  children: [
+                    minuteButtonBuilder(mainColor, context)
+                  ],
+                ),
+              );
+            },
+          ),
+          // Row 7: Start Button
+          Container(
+            margin: const EdgeInsets.only(top: 10),
+            child: InkWell(
+              onTap: () {},
+              child: Container(
+                width: 100,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: mainColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    'Start',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ),
         ],
       ),
     );
@@ -227,3 +347,95 @@ Icon iconChoose(String label, BuildContext context) {
   return Icon(Icons.not_accessible);
 }
 
+Row minuteButtonBuilder(Color color,BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+    children: [
+      Container(
+        width: 60,
+        height: 60,
+        margin: const EdgeInsets.only(right: 10),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Text(
+            '5',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 35,
+            ),
+          ),
+        ),
+      ),
+      Container(
+        width: 60,
+        height: 60,
+        margin: const EdgeInsets.only(right: 10),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Text(
+            '10',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 35,
+            ),
+          ),
+        ),
+      ),
+      Container(
+        width: 60,
+        height: 60,
+        margin: const EdgeInsets.only(right: 10),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Text(
+            '15',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 35,
+            ),
+          ),
+        ),
+      ),
+      Container(
+        width: 60,
+        height: 60,
+        margin: const EdgeInsets.only(right: 10),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Text(
+            '30',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 35,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}

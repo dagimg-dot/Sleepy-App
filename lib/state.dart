@@ -18,12 +18,12 @@ class TogglesModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleDoNotDisturbButton() {
+  void toggleScreenOffButton() {
     isScreenOff = !isScreenOff;
     notifyListeners();
   }
 
-  void toggleAirplaneModeButton() {
+  void toggleDoNotDisturbButton() {
     isDoNotDisturbModeOff = !isDoNotDisturbModeOff;
     notifyListeners();
   }

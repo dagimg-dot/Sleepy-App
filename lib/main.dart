@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sleepy_app/toggles_model.dart';
+import 'package:sleepy_app/input_field_model.dart';
 
 void main() => runApp(ChangeNotifierProvider(
       create: (_) => TogglesModel(),
@@ -29,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Color mainColor = const Color(0XFF2F9EEF);
+  final numberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -87,147 +89,150 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          // Row 1: Text
-          Container(
-            padding: const EdgeInsets.all(10),
-            // color: Colors.amber,
-            margin: const EdgeInsets.only(top: 3),
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(
-                'Choose what to do on sleep',
-                style: TextStyle(
-                  color: Color(0XFF2F9EEF),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                ),
-                // textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          // Row 2: The Icons
-          Consumer<TogglesModel>(
-            builder: (context, togglesModel, child) {
-              return Container(
-                // color: Colors.amber,
-                margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.all(8),
-                child: Wrap(
-                  spacing: 30,
-                  runSpacing: 20,
-                  alignment: WrapAlignment.spaceAround,
-                  children: [
-                    iconBuilder(mainColor, 'Wi-Fi', context),
-                    iconBuilder(mainColor, 'Bluetooth', context),
-                    iconBuilder(mainColor, 'Screen', context),
-                    iconBuilder(mainColor, 'Sound Mode', context),
-                  ],
-                ),
-              );
-            },
-          ),
-          // Row 3: Counter Box
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Timer Started",
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            // Row 1: Text
+            Container(
+              padding: const EdgeInsets.all(10),
+              // color: Colors.amber,
+              margin: const EdgeInsets.only(top: 3),
+              child: Align(
+                // alignment: Alignment.center,
+                child: Text(
+                  'Choose what to do on sleep',
                   style: TextStyle(
                     color: Color(0XFF2F9EEF),
                     fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                  )),
-              Container(
-                margin: const EdgeInsets.only(left: 10),
-                padding: const EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                  color: mainColor,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Text(
-                  '00:00',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
                   ),
+                  // textAlign: TextAlign.center,
                 ),
               ),
-            ],
-          ),
-          // Row 4: Add Button
-          Container(
-            margin: const EdgeInsets.only(top: 10),
-            child: InkWell(
-              onTap: () {},
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: mainColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
+            ),
+            // Row 2: The Icons
+            Consumer<TogglesModel>(
+              builder: (context, togglesModel, child) {
+                return Container(
+                  // color: Colors.amber,
+                  margin: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.all(8),
+                  child: Wrap(
+                    spacing: 30,
+                    runSpacing: 20,
+                    alignment: WrapAlignment.spaceAround,
+                    children: [
+                      iconBuilder(mainColor, 'Wi-Fi', context),
+                      iconBuilder(mainColor, 'Bluetooth', context),
+                      iconBuilder(mainColor, 'Screen', context),
+                      iconBuilder(mainColor, 'Sound Mode', context),
+                    ],
+                  ),
+                );
+              },
+            ),
+            // Row 3: Counter Box
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Timer Started",
+                    style: TextStyle(
+                      color: Color(0XFF2F9EEF),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                    )),
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: mainColor,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
                   child: Text(
-                    '+',
+                    '00:00',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
                     ),
                   ),
                 ),
-              ),
-            )
-          ),
-          // Row 5: Input Box
-          Container(
-            margin: const EdgeInsets.only(top: 10),
-            padding: const EdgeInsets.all(8),
-            child: textFieldBuilder(mainColor, 'Set Timer'),
-          ),
-          // Row 6: Common minutes
-          Consumer<TogglesModel>(
-            builder: (context, togglesModel, child) {
-              return Container(
-                // color: Colors.amber,
-                margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.all(8),
-                child: Wrap(
-                  spacing: 25,
-                  runSpacing: 20,
-                  alignment: WrapAlignment.spaceAround,
-                  children: [
-                    minuteButtonBuilder(mainColor, context)
-                  ],
-                ),
-              );
-            },
-          ),
-          // Row 7: Start Button
-          Container(
-            margin: const EdgeInsets.only(top: 13),
-            child: InkWell(
-              onTap: () {},
-              child: Container(
-                width: 170,
-                height: 45,
-                decoration: BoxDecoration(
-                  color: mainColor,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Center(
-                  child: Text(
-                    'Start',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
+              ],
+            ),
+            // Row 4: Add Button
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: mainColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '+',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
-          ),
-        ],
+              )
+            ),
+            // Row 5: Input Box
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.all(8),
+              child: textFieldBuilder(mainColor, 'Set Timer',numberController,context),
+            ),
+            // Row 6: Common minutes
+            Consumer<TogglesModel>(
+              builder: (context, togglesModel, child) {
+                return Container(
+                  // color: Colors.amber,
+                  margin: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.all(8),
+                  child: Wrap(
+                    spacing: 25,
+                    runSpacing: 20,
+                    alignment: WrapAlignment.spaceAround,
+                    children: [
+                      minuteButtonBuilder(mainColor, context)
+                    ],
+                  ),
+                );
+              },
+            ),
+            // Row 7: Start Button
+            Container(
+              margin: const EdgeInsets.only(top: 13),
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  width: 170,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: mainColor,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Start',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -299,13 +304,13 @@ Icon iconChoose(String label, BuildContext context) {
     if (Provider.of<TogglesModel>(context, listen: false)
         .getBluetoothButtonState) {
       return Icon(
-        Icons.bluetooth,
+        Icons.bluetooth_rounded,
         size: 58,
         color: Colors.white,
       );
     } else {
       return Icon(
-        Icons.bluetooth_disabled,
+        Icons.bluetooth_disabled_rounded,
         size: 58,
         color: Colors.white,
       );
@@ -331,13 +336,13 @@ Icon iconChoose(String label, BuildContext context) {
     if (Provider.of<TogglesModel>(context, listen: false)
         .getDoNotDisturbButtonState) {
       return Icon(
-        Icons.volume_up,
+        Icons.volume_up_rounded,
         size: 58,
         color: Colors.white,
       );
     } else {
       return Icon(
-        Icons.volume_off,
+        Icons.volume_off_rounded,
         size: 58,
         color: Colors.white,
       );
@@ -438,18 +443,23 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
   );
 }
 
-TextField textFieldBuilder(Color color, String label) {
-  final TextEditingController controller = TextEditingController();
+TextField textFieldBuilder(Color color, String label, TextEditingController controller, BuildContext context) {
   return TextField(
-    onTap: () {
-      FocusNode().requestFocus(FocusNode());
-    },
-    // enabled: true,
-    onChanged: (text) {
-      print(text);
-    },
+    enabled: true,
+    // onChanged: (text) {
+    //   Provider.of(context, listen: false).updateInputFieldText(text);
+    // },
+    // onSubmitted: (text) {
+    //   String input = Provider.of(context, listen: false).getInputFieldText;
+    //   print(input);
+    // },
     controller: controller,
+    keyboardType: TextInputType.number,
     decoration: InputDecoration(
+      prefixIcon: Icon(
+        Icons.timer_rounded,
+        color: color,
+      ),
       labelText: label,
       labelStyle: TextStyle(
         color: color,
@@ -469,4 +479,10 @@ TextField textFieldBuilder(Color color, String label) {
       ),
     ),
   );
+}
+
+void displayTappedMin() {
+  // display the tapped minutes from the minute builder buttons in the text field
+
+
 }

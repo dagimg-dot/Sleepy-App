@@ -3,10 +3,10 @@
 import 'package:flutter/foundation.dart';
 
 class TogglesModel extends ChangeNotifier {
-  bool isWifiButtonOff = false;
-  bool isBluetoothButtonOff = false;
-  bool isScreenOff = false;
-  bool isDoNotDisturbModeOff = false;
+  bool isWifiButtonOff = true;
+  bool isBluetoothButtonOff = true;
+  bool isScreenOff = true;
+  bool isDoNotDisturbModeOff = true;
 
   void toggleWifiButton() {
     isWifiButtonOff = !isWifiButtonOff;

@@ -5,8 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:sleepy_app/toggles_model.dart';
 import 'package:sleepy_app/input_field_model.dart';
 
-void main() => runApp(ChangeNotifierProvider(
-      create: (_) => TogglesModel(),
+void main() => runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => TogglesModel()),
+        ChangeNotifierProvider(create: (context) => InputFieldModel()),
+      ],
       child: MyApp(),
     ));
 
@@ -33,6 +36,13 @@ class _MyHomePageState extends State<MyHomePage> {
   final numberController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    numberController.addListener(() => setState(() {}));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -45,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         leading: IconButton(
-          // show a pop up that says i am tapped when tapped 
+            // show a pop up that says i am tapped when tapped
             tooltip: 'Menu',
             onPressed: () {
               showDialog(
@@ -70,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             tooltip: 'Dark Mode',
             onPressed: () {
-              // show a pop up that says i am tapped when tapped 
+              // show a pop up that says i am tapped when tapped
               showDialog(
                 context: context,
                 builder: (context) {
@@ -161,37 +171,37 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             // Row 4: Add Button
             Container(
-              margin: const EdgeInsets.only(top: 10),
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: mainColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '+',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
+                margin: const EdgeInsets.only(top: 10),
+                child: InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '+',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ),
+                )),
             // Row 5: Input Box
             Container(
               margin: const EdgeInsets.only(top: 10),
               padding: const EdgeInsets.all(8),
-              child: textFieldBuilder(mainColor, 'Set Timer',numberController,context),
+              child: textFieldBuilder(
+                  mainColor, 'Set Timer', numberController, context),
             ),
             // Row 6: Common minutes
-            Consumer<TogglesModel>(
-              builder: (context, togglesModel, child) {
+            Consumer<InputFieldModel>(
+              builder: (context, inputFieldModel, child) {
                 return Container(
                   // color: Colors.amber,
                   margin: const EdgeInsets.only(top: 10),
@@ -201,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     runSpacing: 20,
                     alignment: WrapAlignment.spaceAround,
                     children: [
-                      minuteButtonBuilder(mainColor, context)
+                      minuteButtonBuilder(mainColor, numberController, context)
                     ],
                   ),
                 );
@@ -209,28 +219,33 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             // Row 7: Start Button
             Container(
-              margin: const EdgeInsets.only(top: 13),
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  width: 170,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: mainColor,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Start',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
+                margin: const EdgeInsets.only(top: 13),
+                child: InkWell(
+                  splashColor: Colors.amberAccent,
+                  onTap: () {
+                    Provider.of<InputFieldModel>(context, listen: false)
+                        .updateInputFieldText(numberController.text);
+                    print(Provider.of<InputFieldModel>(context, listen: false)
+                        .getInputFieldText);
+                  },
+                  child: Container(
+                    width: 170,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Start',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ),
+                )),
           ],
         ),
       ),
@@ -351,7 +366,8 @@ Icon iconChoose(String label, BuildContext context) {
   return Icon(Icons.not_accessible);
 }
 
-Row minuteButtonBuilder(Color color,BuildContext context) {
+Row minuteButtonBuilder(
+    Color color, TextEditingController controller, BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
@@ -360,7 +376,14 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
         height: 60,
         margin: const EdgeInsets.only(right: 10),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            controller.clear();
+            Provider.of<InputFieldModel>(context, listen: false)
+                .updateChoosenMin(5);
+            Provider.of<InputFieldModel>(context, listen: false)
+                .updateInputFieldText("5");
+            controller.text = "5";
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
             shape: RoundedRectangleBorder(
@@ -371,7 +394,7 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
             '5',
             style: TextStyle(
               color: Colors.white,
-              fontSize:25,
+              fontSize: 25,
             ),
           ),
         ),
@@ -381,7 +404,14 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
         height: 60,
         margin: const EdgeInsets.only(right: 10),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            controller.clear();
+            Provider.of<InputFieldModel>(context, listen: false)
+                .updateChoosenMin(10);
+            Provider.of<InputFieldModel>(context, listen: false)
+                .updateInputFieldText("10");
+            controller.text = "10";
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
             shape: RoundedRectangleBorder(
@@ -392,7 +422,7 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
             '10',
             style: TextStyle(
               color: Colors.white,
-              fontSize:25,
+              fontSize: 25,
             ),
           ),
         ),
@@ -402,7 +432,14 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
         height: 60,
         margin: const EdgeInsets.only(right: 10),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            controller.clear();
+            Provider.of<InputFieldModel>(context, listen: false)
+                .updateChoosenMin(15);
+            Provider.of<InputFieldModel>(context, listen: false)
+                .updateInputFieldText("15");
+            controller.text = "15";
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
             shape: RoundedRectangleBorder(
@@ -413,7 +450,7 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
             '15',
             style: TextStyle(
               color: Colors.white,
-              fontSize:25,
+              fontSize: 25,
             ),
           ),
         ),
@@ -423,7 +460,14 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
         height: 60,
         margin: const EdgeInsets.only(right: 10),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            controller.clear();
+            Provider.of<InputFieldModel>(context, listen: false)
+                .updateChoosenMin(30);
+            Provider.of<InputFieldModel>(context, listen: false)
+                .updateInputFieldText("30");
+            controller.text = "30";
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
             shape: RoundedRectangleBorder(
@@ -443,7 +487,8 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
   );
 }
 
-TextField textFieldBuilder(Color color, String label, TextEditingController controller, BuildContext context) {
+TextField textFieldBuilder(Color color, String label,
+    TextEditingController controller, BuildContext context) {
   return TextField(
     enabled: true,
     // onChanged: (text) {
@@ -460,6 +505,17 @@ TextField textFieldBuilder(Color color, String label, TextEditingController cont
         Icons.timer_rounded,
         color: color,
       ),
+      suffixIcon: controller.text.isEmpty
+          ? Container(width: 0)
+          : IconButton(
+              onPressed: () {
+                controller.clear();
+              },
+              icon: Icon(
+                Icons.close,
+                color: color,
+              ),
+            ),
       labelText: label,
       labelStyle: TextStyle(
         color: color,
@@ -483,6 +539,4 @@ TextField textFieldBuilder(Color color, String label, TextEditingController cont
 
 void displayTappedMin() {
   // display the tapped minutes from the minute builder buttons in the text field
-
-
 }

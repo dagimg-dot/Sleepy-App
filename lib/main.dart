@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sleepy_app/state.dart';
+import 'package:sleepy_app/TogglesModel.dart';
 
 void main() => runApp(ChangeNotifierProvider(
       create: (_) => TogglesModel(),
@@ -43,7 +43,19 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         leading: IconButton(
-            onPressed: null,
+          // show a pop up that says i am tapped when tapped 
+            tooltip: 'Menu',
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Menu'),
+                    content: Text('I am tapped'),
+                  );
+                },
+              );
+            },
             icon: Icon(
               Icons.menu,
               color: mainColor,
@@ -52,10 +64,21 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
-        actions: const [
+        actions: [
           IconButton(
             tooltip: 'Dark Mode',
-            onPressed: null,
+            onPressed: () {
+              // show a pop up that says i am tapped when tapped 
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Dark Mode'),
+                    content: Text('I am tapped'),
+                  );
+                },
+              );
+            },
             icon: Icon(
               Icons.dark_mode_outlined,
               color: Color(0XFF2F9EEF),
@@ -72,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // color: Colors.amber,
             margin: const EdgeInsets.only(top: 3),
             child: Align(
-              // alignment: Alignment.center,
+              alignment: Alignment.center,
               child: Text(
                 'Choose what to do on sleep',
                 style: TextStyle(
@@ -113,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(
                     color: Color(0XFF2F9EEF),
                     fontSize: 15,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                   )),
               Container(
                 margin: const EdgeInsets.only(left: 10),
@@ -160,31 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             margin: const EdgeInsets.only(top: 10),
             padding: const EdgeInsets.all(8),
-            child: TextField(
-              decoration: InputDecoration(
-                icon: Icon(
-                  Icons.timer,
-                  color: mainColor,
-                ),
-                hintText: 'Set timer',
-                hintStyle: TextStyle(
-                  color: Color(0XFF2F9EEF),
-                  fontSize: 15,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: mainColor,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: mainColor,
-                  ),
-                ),
-              ),
-            ),
+            child: textFieldBuilder(mainColor, 'Set Timer'),
           ),
           // Row 6: Common minutes
           Consumer<TogglesModel>(
@@ -206,22 +205,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           // Row 7: Start Button
           Container(
-            margin: const EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: 13),
             child: InkWell(
               onTap: () {},
               child: Container(
-                width: 100,
-                height: 40,
+                width: 170,
+                height: 45,
                 decoration: BoxDecoration(
                   color: mainColor,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: Center(
                   child: Text(
                     'Start',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 15,
+                      fontSize: 18,
                     ),
                   ),
                 ),
@@ -258,8 +257,8 @@ Column iconBuilder(Color color, String label, BuildContext context) {
         }
       },
       child: Container(
-        width: 86,
-        height: 86,
+        width: 75,
+        height: 75,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(10),
@@ -285,13 +284,13 @@ Icon iconChoose(String label, BuildContext context) {
     if (Provider.of<TogglesModel>(context, listen: false).getWifiButtonState) {
       return Icon(
         Icons.wifi_rounded,
-        size: 62,
+        size: 58,
         color: Colors.white,
       );
     } else {
       return Icon(
         Icons.wifi_off_rounded,
-        size: 62,
+        size: 58,
         color: Colors.white,
       );
     }
@@ -301,13 +300,13 @@ Icon iconChoose(String label, BuildContext context) {
         .getBluetoothButtonState) {
       return Icon(
         Icons.bluetooth,
-        size: 62,
+        size: 58,
         color: Colors.white,
       );
     } else {
       return Icon(
         Icons.bluetooth_disabled,
-        size: 62,
+        size: 58,
         color: Colors.white,
       );
     }
@@ -317,13 +316,13 @@ Icon iconChoose(String label, BuildContext context) {
         .getScreenButtonState) {
       return Icon(
         Icons.phone_android_rounded,
-        size: 62,
+        size: 58,
         color: Colors.white,
       );
     } else {
       return Icon(
         Icons.mobile_off_rounded,
-        size: 62,
+        size: 58,
         color: Colors.white,
       );
     }
@@ -333,13 +332,13 @@ Icon iconChoose(String label, BuildContext context) {
         .getDoNotDisturbButtonState) {
       return Icon(
         Icons.volume_up,
-        size: 62,
+        size: 58,
         color: Colors.white,
       );
     } else {
       return Icon(
         Icons.volume_off,
-        size: 62,
+        size: 58,
         color: Colors.white,
       );
     }
@@ -352,7 +351,7 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
       Container(
-        width: 60,
+        width: 70,
         height: 60,
         margin: const EdgeInsets.only(right: 10),
         child: ElevatedButton(
@@ -367,13 +366,13 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
             '5',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 35,
+              fontSize:25,
             ),
           ),
         ),
       ),
       Container(
-        width: 60,
+        width: 70,
         height: 60,
         margin: const EdgeInsets.only(right: 10),
         child: ElevatedButton(
@@ -388,13 +387,13 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
             '10',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 35,
+              fontSize:25,
             ),
           ),
         ),
       ),
       Container(
-        width: 60,
+        width: 70,
         height: 60,
         margin: const EdgeInsets.only(right: 10),
         child: ElevatedButton(
@@ -409,13 +408,13 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
             '15',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 35,
+              fontSize:25,
             ),
           ),
         ),
       ),
       Container(
-        width: 60,
+        width: 70,
         height: 60,
         margin: const EdgeInsets.only(right: 10),
         child: ElevatedButton(
@@ -430,11 +429,44 @@ Row minuteButtonBuilder(Color color,BuildContext context) {
             '30',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 35,
+              fontSize: 25,
             ),
           ),
         ),
       ),
     ],
+  );
+}
+
+TextField textFieldBuilder(Color color, String label) {
+  final TextEditingController controller = TextEditingController();
+  return TextField(
+    onTap: () {
+      FocusNode().requestFocus(FocusNode());
+    },
+    // enabled: true,
+    onChanged: (text) {
+      print(text);
+    },
+    controller: controller,
+    decoration: InputDecoration(
+      labelText: label,
+      labelStyle: TextStyle(
+        color: color,
+        fontSize: 15,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: color,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: color,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+    ),
   );
 }

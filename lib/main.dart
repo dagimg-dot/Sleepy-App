@@ -249,11 +249,11 @@ Column iconBuilder(Color color, String label, BuildContext context) {
             break;
           case 'Screen':
             Provider.of<TogglesModel>(context, listen: false)
-                .toggleDoNotDisturbButton();
+                .toggleScreenOffButton();
             break;
           case 'Sound Mode':
             Provider.of<TogglesModel>(context, listen: false)
-                .toggleAirplaneModeButton();
+                .toggleDoNotDisturbButton();
             break;
         }
       },
@@ -350,7 +350,6 @@ Icon iconChoose(String label, BuildContext context) {
 Row minuteButtonBuilder(Color color,BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
-
     children: [
       Container(
         width: 60,

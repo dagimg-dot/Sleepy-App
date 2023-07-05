@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sleepy_app/provider/input_field_model.dart';
 
 class InputFieldWidget extends StatefulWidget {
   const InputFieldWidget({super.key, required this.controller});
@@ -14,13 +16,9 @@ class InputFieldWidgetState extends State<InputFieldWidget> {
   Widget build(BuildContext context) {
     return TextField(
       enabled: true,
-      // onChanged: (text) {
-      //   Provider.of(context, listen: false).updateInputFieldText(text);
-      // },
-      // onSubmitted: (text) {
-      //   String input = Provider.of(context, listen: false).getInputFieldText;
-      //   print(input);
-      // },
+      onSubmitted: (text) {
+        Provider.of<InputFieldModel>(context, listen: false).updateChoosenMin(int.parse(text));
+      },
       controller: widget.controller,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(

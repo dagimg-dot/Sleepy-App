@@ -14,11 +14,21 @@ class _CounterPageState extends State<CounterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Counter Page'),
+        title: const Text(
+          'Sleepy',
+          style: TextStyle(
+            color: Color(0XFF2F9EEF),
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
       ),
       body: Center(
         child: Text(
-          Provider.of<InputFieldModel>(context, listen: false).getChoosenMin.toString(),  
+          Provider.of<InputFieldModel>(context, listen: false)
+              .getChoosenMin
+              .toString(),
         ),
       ),
     );

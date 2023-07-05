@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 
 class InputFieldWidget extends StatefulWidget {
-  const InputFieldWidget({super.key});
+  const InputFieldWidget({super.key, required this.controller});
   final Color borderColor = const Color(0XFF2F9EEF);
+  final TextEditingController controller;
 
   @override
   State<InputFieldWidget> createState() => InputFieldWidgetState();
 }
 
 class InputFieldWidgetState extends State<InputFieldWidget> {
-  final controller = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(() => setState(() {}));
-  }
-
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -28,18 +21,18 @@ class InputFieldWidgetState extends State<InputFieldWidget> {
       //   String input = Provider.of(context, listen: false).getInputFieldText;
       //   print(input);
       // },
-      controller: controller,
+      controller: widget.controller,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         prefixIcon: Icon(
           Icons.timer_rounded,
           color: widget.borderColor,
         ),
-        suffixIcon: controller.text.isEmpty
+        suffixIcon: widget.controller.text.isEmpty
             ? Container(width: 0)
             : IconButton(
                 onPressed: () {
-                  controller.clear();
+                  widget.controller.clear();
                 },
                 icon: Icon(
                   Icons.close,

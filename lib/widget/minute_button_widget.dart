@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/input_field_model.dart';
 
 class MinuteButtonWidget extends StatelessWidget {
-  const MinuteButtonWidget({super.key, required this.label});
+  const MinuteButtonWidget({super.key, required this.label, required this.controller});
 
   final String label;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +17,12 @@ class MinuteButtonWidget extends StatelessWidget {
       margin: const EdgeInsets.only(right: 10),
       child: ElevatedButton(
         onPressed: () {
-          // controller.clear();
-          // Provider.of<InputFieldModel>(context, listen: false)
-          //     .updateChoosenMin(5);
-          // Provider.of<InputFieldModel>(context, listen: false)
-          //     .updateInputFieldText("5");
-          // controller.text = "5";
+          controller.clear();
+          Provider.of<InputFieldModel>(context, listen: false)
+              .updateChoosenMin(int.parse(label));
+          Provider.of<InputFieldModel>(context, listen: false)
+              .updateInputFieldText(label);
+          controller.text = label;
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,

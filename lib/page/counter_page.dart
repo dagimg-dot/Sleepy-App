@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sleepy_app/provider/input_field_model.dart';
 
 class CounterPage extends StatefulWidget {
   const CounterPage({super.key});
@@ -14,9 +16,9 @@ class _CounterPageState extends State<CounterPage> {
       appBar: AppBar(
         title: const Text('Counter Page'),
       ),
-      body: const Center(
+      body: Center(
         child: Text(
-          'Counter Page',
+          Provider.of<InputFieldModel>(context, listen: false).getChoosenMin.toString(),  
         ),
       ),
     );

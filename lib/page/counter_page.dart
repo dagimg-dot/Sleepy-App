@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:sleepy_app/provider/input_field_model.dart';
 
@@ -10,6 +11,8 @@ class CounterPage extends StatefulWidget {
 }
 
 class _CounterPageState extends State<CounterPage> {
+  final controller = CountDownController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +28,31 @@ class _CounterPageState extends State<CounterPage> {
         centerTitle: true,
       ),
       body: Center(
-        child: Text(
-          Provider.of<InputFieldModel>(context, listen: false)
-              .getChoosenMin
-              .toString(),
-        ),
+        child: NeonCircularTimer(
+            width: 200,
+            duration: Provider.of<InputFieldModel>(context, listen: false)
+                .getChoosenMin,
+            controller: controller,
+            isReverse: true,
+            backgroudColor: const Color.fromARGB(255, 140, 198, 240),
+            textStyle: const TextStyle(
+              fontSize: 30,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+            isReverseAnimation: true,
+            isTimerTextShown: true,
+            neumorphicEffect: true,
+            onComplete: () => print('Countdown Ended'),
+            innerFillGradient: LinearGradient(colors: [
+              Colors.greenAccent.shade200,
+              Colors.blueAccent.shade400
+            ]),
+            neonGradient: LinearGradient(colors: [
+              Colors.greenAccent.shade200,
+              Colors.blueAccent.shade400
+            ]),
+          ),
       ),
     );
   }

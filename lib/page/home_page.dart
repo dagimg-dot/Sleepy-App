@@ -43,7 +43,22 @@ class _MyHomePageState extends State<MyHomePage> {
         behavior: SnackBarBehavior.floating,
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } else {
+    } else if (isIconButtonSelected()) {
+      SnackBar snackBar = const SnackBar(
+        content: Text(
+          'Please select at least one option to be turned off',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+          ),
+        ),
+        duration: Duration(seconds: 2),
+        backgroundColor: Color.fromARGB(255, 216, 81, 57),
+        behavior: SnackBarBehavior.floating,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } 
+    else {
       Provider.of<InputFieldModel>(context, listen: false)
           .updateInputFieldText(controller.text);
       Navigator.push(
@@ -53,6 +68,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
     }
+  }
+
+  bool isIconButtonSelected() {
+    return Provider.of<TogglesModel>(context, listen: false)
+            .getWifiButtonState &&
+        Provider.of<TogglesModel>(context, listen: false)
+            .getBluetoothButtonState &&
+        Provider.of<TogglesModel>(context, listen: false)
+            .getScreenButtonState &&
+        Provider.of<TogglesModel>(context, listen: false)
+            .getDoNotDisturbButtonState;
   }
 
   @override

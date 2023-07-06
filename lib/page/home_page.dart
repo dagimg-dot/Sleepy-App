@@ -203,58 +203,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
               ),
-              // Row 3: Counter Box
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     const Text("Timer Started",
-              //         style: TextStyle(
-              //           color: Color(0XFF2F9EEF),
-              //           fontSize: 15,
-              //           fontWeight: FontWeight.w400,
-              //         )),
-              //     Container(
-              //       margin: const EdgeInsets.only(left: 10),
-              //       padding: const EdgeInsets.all(3),
-              //       decoration: BoxDecoration(
-              //         color: mainColor,
-              //         borderRadius: BorderRadius.circular(5),
-              //       ),
-              //       child: const Text(
-              //         // '${time.minute}:${time.second.toString().padLeft(2, '0')}',
-              //         '00:00',
-              //         style: TextStyle(
-              //           color: Colors.white,
-              //           fontSize: 15,
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // // Row 4: Add Button
-              // Container(
-              //   margin: const EdgeInsets.only(top: 10),
-              //   child: InkWell(
-              //     onTap: () {},
-              //     child: Container(
-              //       width: 20,
-              //       height: 20,
-              //       decoration: BoxDecoration(
-              //         color: mainColor,
-              //         borderRadius: BorderRadius.circular(10),
-              //       ),
-              //       child: const Center(
-              //         child: Text(
-              //           '+',
-              //           style: TextStyle(
-              //             color: Colors.white,
-              //             fontSize: 15,
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               // Row 5: Input Box
               Container(
                 margin: const EdgeInsets.only(top: 10),

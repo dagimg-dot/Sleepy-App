@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:sleepy_app/provider/input_field_model.dart';
+import 'package:sleepy_app/provider/toggles_model.dart';
 import 'package:sleepy_app/widget/button_widget.dart';
 
 class CounterPage extends StatefulWidget {
@@ -71,7 +72,9 @@ class _CounterPageState extends State<CounterPage> {
                 neumorphicEffect: true,
                 strokeWidth: 15,
                 onComplete: () => {
-                  toggleWifiButton(),
+                  if(!Provider.of<TogglesModel>(context, listen: false).getWifiButtonState) {
+                    toggleWifiButton(),
+                  },
                   Navigator.pop(context),
                 },
                 innerFillGradient: LinearGradient(colors: [

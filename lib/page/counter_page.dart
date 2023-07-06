@@ -72,9 +72,7 @@ class _CounterPageState extends State<CounterPage> {
                 neumorphicEffect: true,
                 strokeWidth: 15,
                 onComplete: () => {
-                  if(!Provider.of<TogglesModel>(context, listen: false).getWifiButtonState) {
-                    toggleWifiButton(),
-                  },
+                  if (!Provider.of<TogglesModel>(context, listen: false).getWifiButtonState) toggleWifiButton(),
                   Navigator.pop(context),
                 },
                 innerFillGradient: LinearGradient(colors: [

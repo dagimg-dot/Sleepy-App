@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sleepy_app/page/counter_page.dart';
 import 'package:sleepy_app/provider/toggles_model.dart';
+import 'package:sleepy_app/services/android_controls.dart';
 import 'package:sleepy_app/widget/icon_button_widget.dart';
 import 'package:sleepy_app/widget/input_field_widget.dart';
 import 'package:sleepy_app/widget/minute_button_widget.dart';
 
 import '../provider/input_field_model.dart';
 import '../widget/button_widget.dart';
+import '../widget/snack_bar_widget.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -31,34 +33,17 @@ class _MyHomePageState extends State<MyHomePage> {
   void navigateToCounterPage() {
     if (controller.text.isEmpty) {
       SnackBar snackBar = const SnackBar(
-        content: Text(
-          'Please enter a number',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 15,
-          ),
-        ),
-        duration: Duration(seconds: 2),
-        backgroundColor: Color.fromARGB(255, 216, 81, 57),
-        behavior: SnackBarBehavior.floating,
-      );
+          content: SnackBarWidget(
+        label: 'Please enter the time you want to sleep in minutes',
+      ));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else if (isIconButtonSelected()) {
       SnackBar snackBar = const SnackBar(
-        content: Text(
-          'Please select at least one option to be turned off',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 15,
-          ),
-        ),
-        duration: Duration(seconds: 2),
-        backgroundColor: Color.fromARGB(255, 216, 81, 57),
-        behavior: SnackBarBehavior.floating,
-      );
+          content: SnackBarWidget(
+        label: 'Please select at least one option',
+      ));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } 
-    else {
+    } else {
       Provider.of<InputFieldModel>(context, listen: false)
           .updateInputFieldText(controller.text);
       Navigator.push(
@@ -79,6 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
             .getScreenButtonState &&
         Provider.of<TogglesModel>(context, listen: false)
             .getDoNotDisturbButtonState;
+  }
+
+  Future<bool?> checkPermission(context) async {
+    bool? isGranted = await AndroidControls.requestPermession(context);
+    if (isGranted == true) {
+      Provider.of<TogglesModel>(context, listen: false).toggleScreenOffButton();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -206,11 +201,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                 .getScreenButtonState,
                             iconON: Icons.phone_android_rounded,
                             iconOFF: Icons.mobile_off_rounded,
-                            onPressed: () => {
-                                  Provider.of<TogglesModel>(context,
-                                          listen: false)
-                                      .toggleScreenOffButton(),
-                                }),
+                            onPressed: () async {
+                              ScaffoldMessengerState scaffoldMessengerState =
+                                  ScaffoldMessenger.of(context);
+                              bool? isGranted = await checkPermission(context);
+                              if (isGranted == false ) {
+                                SnackBar snackBar = const SnackBar(
+                                    content: SnackBarWidget(
+                                  label:
+                                      'Please grant the permission to access the screen',
+                                ));
+                                scaffoldMessengerState.showSnackBar(snackBar);
+                              }
+                            }),
                         // SoundMode
                         IconButtonWidget(
                             label: 'Do not disturb',

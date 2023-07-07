@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// currently not used
 class SnackBarWidget extends StatelessWidget {
   const SnackBarWidget({
     super.key,

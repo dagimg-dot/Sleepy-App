@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class InputFieldModel extends ChangeNotifier {
   String _inputFieldText = '';
-  late int choosenMin;
+  int choosenMin = 0;
 
   void updateInputFieldText(String text) {
     _inputFieldText = text;

@@ -12,12 +12,21 @@ class InputFieldWidget extends StatefulWidget {
 }
 
 class InputFieldWidgetState extends State<InputFieldWidget> {
+  bool isInteger(String value) {
+    final intResult = int.tryParse(value);
+    return intResult != null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextField(
       enabled: true,
       onSubmitted: (text) {
-        Provider.of<InputFieldModel>(context, listen: false).updateChoosenMin(int.parse(text));
+        if (text.isEmpty || !isInteger(text)) {
+          return;
+        }
+        Provider.of<InputFieldModel>(context, listen: false)
+            .updateChoosenMin(int.parse(text));
       },
       controller: widget.controller,
       keyboardType: TextInputType.number,

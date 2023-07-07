@@ -6,7 +6,7 @@ class TogglesModel extends ChangeNotifier {
   bool isWifiButtonOff = true;
   bool isBluetoothButtonOff = true;
   bool isScreenOff = true;
-  bool isDoNotDisturbModeOff = true;
+  bool isDoNotDisturbModeOff = false;
 
   void toggleWifiButton() {
     isWifiButtonOff = !isWifiButtonOff;
@@ -32,7 +32,7 @@ class TogglesModel extends ChangeNotifier {
     isWifiButtonOff = true;
     isBluetoothButtonOff = true;
     isScreenOff = true;
-    isDoNotDisturbModeOff = true;
+    isDoNotDisturbModeOff = false;
     notifyListeners();
   }
 

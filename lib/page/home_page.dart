@@ -33,15 +33,31 @@ class _MyHomePageState extends State<MyHomePage> {
   void navigateToCounterPage() {
     if (controller.text.isEmpty) {
       SnackBar snackBar = const SnackBar(
-          content: SnackBarWidget(
-        label: 'Please enter the time you want to sleep in minutes',
-      ));
+        content: Text(
+          "Please enter the time in minutes",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+          ),
+        ),
+        duration: Duration(seconds: 2),
+        backgroundColor: Color.fromARGB(255, 216, 81, 57),
+        behavior: SnackBarBehavior.floating,
+      );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else if (isIconButtonSelected()) {
       SnackBar snackBar = const SnackBar(
-          content: SnackBarWidget(
-        label: 'Please select at least one option',
-      ));
+        content: Text(
+          "Please select at least one option to turn off",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+          ),
+        ),
+        duration: Duration(seconds: 2),
+        backgroundColor: Color.fromARGB(255, 216, 81, 57),
+        behavior: SnackBarBehavior.floating,
+      );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
       Provider.of<InputFieldModel>(context, listen: false)
@@ -205,12 +221,20 @@ class _MyHomePageState extends State<MyHomePage> {
                               ScaffoldMessengerState scaffoldMessengerState =
                                   ScaffoldMessenger.of(context);
                               bool? isGranted = await checkPermission(context);
-                              if (isGranted == false ) {
+                              if (isGranted == false) {
                                 SnackBar snackBar = const SnackBar(
-                                    content: SnackBarWidget(
-                                  label:
-                                      'Please grant the permission to access the screen',
-                                ));
+                                  content: Text(
+                                    "Permission denied, please grant permission to use this feature",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  duration: Duration(seconds: 2),
+                                  backgroundColor:
+                                      Color.fromARGB(255, 216, 81, 57),
+                                  behavior: SnackBarBehavior.floating,
+                                );
                                 scaffoldMessengerState.showSnackBar(snackBar);
                               }
                             }),

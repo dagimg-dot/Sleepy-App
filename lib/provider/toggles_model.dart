@@ -28,6 +28,14 @@ class TogglesModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetValues() {
+    isWifiButtonOff = true;
+    isBluetoothButtonOff = true;
+    isScreenOff = true;
+    isDoNotDisturbModeOff = true;
+    notifyListeners();
+  }
+
   bool get getWifiButtonState => isWifiButtonOff;  
   bool get getBluetoothButtonState => isBluetoothButtonOff;  
   bool get getScreenButtonState => isScreenOff;

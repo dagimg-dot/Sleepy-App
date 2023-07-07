@@ -63,6 +63,7 @@ class _CounterPageState extends State<CounterPage> {
                 onComplete: () => {
                   if (!Provider.of<TogglesModel>(context, listen: false).getWifiButtonState) AndroidControls.toggleWifiButton(),
                   if (!Provider.of<TogglesModel>(context, listen: false).getBluetoothButtonState) AndroidControls.toggleBT(),
+                  if (!Provider.of<TogglesModel>(context, listen: false).getScreenButtonState) AndroidControls.lockScreen(),
                   Navigator.pop(context),
                 },
                 innerFillGradient: LinearGradient(colors: [

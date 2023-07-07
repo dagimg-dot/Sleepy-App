@@ -42,6 +42,7 @@ dependencies:
   neon_circular_timer: ^0.0.7
   flutter_bluetooth_serial: ^0.4.0
   device_policy_manager: ^0.0.1
+  flutter_dnd: ^0.1.4+1
 
 dev_dependencies:
   flutter_test:

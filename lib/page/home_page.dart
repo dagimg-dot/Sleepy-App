@@ -81,10 +81,63 @@ class _MyHomePageState extends State<MyHomePage> {
             .getDoNotDisturbButtonState;
   }
 
-  Future<bool?> checkPermission(context) async {
-    bool? isGranted = await AndroidControls.requestPermession(context);
+  void handlePressLS() async {
+    ScaffoldMessengerState scaffoldMessengerState =
+        ScaffoldMessenger.of(context);
+    bool? isGranted = await checkPermissionLS(context);
+    if (isGranted == false) {
+      SnackBar snackBar = const SnackBar(
+        content: Text(
+          "Permission denied, please grant permission to use this feature",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+          ),
+        ),
+        duration: Duration(seconds: 2),
+        backgroundColor: Color.fromARGB(255, 216, 81, 57),
+        behavior: SnackBarBehavior.floating,
+      );
+      scaffoldMessengerState.showSnackBar(snackBar);
+    }
+  }
+
+  Future<bool?> checkPermissionLS(context) async {
+    bool? isGranted = await AndroidControls.requestPermessionLS(context);
     if (isGranted == true) {
       Provider.of<TogglesModel>(context, listen: false).toggleScreenOffButton();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void handlePressDND() async {
+    ScaffoldMessengerState scaffoldMessengerState =
+        ScaffoldMessenger.of(context);
+    bool? isGranted = await checkPermissionDND(context);
+    if (isGranted == false) {
+      SnackBar snackBar = const SnackBar(
+        content: Text(
+          "Permission denied, please grant permission to use this feature",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+          ),
+        ),
+        duration: Duration(seconds: 2),
+        backgroundColor: Color.fromARGB(255, 216, 81, 57),
+        behavior: SnackBarBehavior.floating,
+      );
+      scaffoldMessengerState.showSnackBar(snackBar);
+    }
+  }
+
+  Future<bool?> checkPermissionDND(context) async {
+    bool? isGranted = await AndroidControls.requestPermessionDND(context);
+    if (isGranted == true) {
+      Provider.of<TogglesModel>(context, listen: false)
+          .toggleDoNotDisturbButton();
       return true;
     } else {
       return false;
@@ -210,33 +263,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 }),
                         // Screen
                         IconButtonWidget(
-                            label: 'Lock Screen',
-                            boolState: Provider.of<TogglesModel>(context,
-                                    listen: false)
-                                .getScreenButtonState,
-                            iconON: Icons.phone_android_rounded,
-                            iconOFF: Icons.mobile_off_rounded,
-                            onPressed: () async {
-                              ScaffoldMessengerState scaffoldMessengerState =
-                                  ScaffoldMessenger.of(context);
-                              bool? isGranted = await checkPermission(context);
-                              if (isGranted == false) {
-                                SnackBar snackBar = const SnackBar(
-                                  content: Text(
-                                    "Permission denied, please grant permission to use this feature",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  duration: Duration(seconds: 2),
-                                  backgroundColor:
-                                      Color.fromARGB(255, 216, 81, 57),
-                                  behavior: SnackBarBehavior.floating,
-                                );
-                                scaffoldMessengerState.showSnackBar(snackBar);
-                              }
-                            }),
+                          label: 'Lock Screen',
+                          boolState:
+                              Provider.of<TogglesModel>(context, listen: false)
+                                  .getScreenButtonState,
+                          iconON: Icons.phone_android_rounded,
+                          iconOFF: Icons.mobile_off_rounded,
+                          onPressed: () => handlePressLS(),
+                        ),
                         // SoundMode
                         IconButtonWidget(
                             label: 'Turn on Do not disturb',
@@ -245,11 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 .getDoNotDisturbButtonState,
                             iconON: Icons.do_disturb_on_rounded,
                             iconOFF: Icons.do_disturb_off_rounded,
-                            onPressed: () => {
-                                  Provider.of<TogglesModel>(context,
-                                          listen: false)
-                                      .toggleDoNotDisturbButton(),
-                                }),
+                            onPressed: () => handlePressDND()),
                       ],
                     ),
                   );

@@ -6,6 +6,7 @@
     <uses-feature android:name="android.hardware.wifi" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
     <application
         android:label="sleepy_app"
         android:name="${applicationName}"

@@ -213,12 +213,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                 }),
                         // SoundMode
                         IconButtonWidget(
-                            label: 'Sound Mode',
+                            label: 'Do not disturb',
                             boolState: Provider.of<TogglesModel>(context,
                                     listen: false)
                                 .getDoNotDisturbButtonState,
-                            iconON: Icons.volume_up_rounded,
-                            iconOFF: Icons.volume_off_rounded,
+                            iconON: Icons.do_disturb_on_rounded,
+                            iconOFF: Icons.do_disturb_off_rounded,
                             onPressed: () => {
                                   Provider.of<TogglesModel>(context,
                                           listen: false)

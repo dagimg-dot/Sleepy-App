@@ -64,6 +64,7 @@ class _CounterPageState extends State<CounterPage> {
                   if (!Provider.of<TogglesModel>(context, listen: false).getWifiButtonState) AndroidControls.toggleWifiButton(),
                   if (!Provider.of<TogglesModel>(context, listen: false).getBluetoothButtonState) AndroidControls.toggleBT(),
                   if (!Provider.of<TogglesModel>(context, listen: false).getScreenButtonState) AndroidControls.lockScreen(),
+                  if (Provider.of<TogglesModel>(context, listen: false).getDoNotDisturbButtonState) AndroidControls.toggleDND(),
                   Provider.of<TogglesModel>(context, listen: false).resetValues(),
                   Navigator.pop(context),
                 },

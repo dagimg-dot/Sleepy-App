@@ -47,13 +47,13 @@ class _MyHomePageState extends State<MyHomePage> {
     } else if (isIconButtonSelected()) {
       SnackBar snackBar = const SnackBar(
         content: Text(
-          "Please select at least one option to turn off",
+          "Please select at least one option to turn on/off before you sleep",
           style: TextStyle(
             color: Colors.white,
             fontSize: 15,
           ),
         ),
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 4),
         backgroundColor: Color.fromARGB(255, 216, 81, 57),
         behavior: SnackBarBehavior.floating,
       );
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
             .getBluetoothButtonState &&
         Provider.of<TogglesModel>(context, listen: false)
             .getScreenButtonState &&
-        Provider.of<TogglesModel>(context, listen: false)
+        !Provider.of<TogglesModel>(context, listen: false)
             .getDoNotDisturbButtonState;
   }
 
@@ -184,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         // Wi-Fi
                         IconButtonWidget(
-                            label: 'Wi-Fi',
+                            label: 'Turn off Wi-Fi',
                             boolState: Provider.of<TogglesModel>(context,
                                     listen: false)
                                 .getWifiButtonState,
@@ -197,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 }),
                         // Bluetooth
                         IconButtonWidget(
-                            label: 'Bluetooth',
+                            label: 'Turn off Bluetooth',
                             boolState: Provider.of<TogglesModel>(context,
                                     listen: false)
                                 .getBluetoothButtonState,
@@ -210,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 }),
                         // Screen
                         IconButtonWidget(
-                            label: 'Screen',
+                            label: 'Lock Screen',
                             boolState: Provider.of<TogglesModel>(context,
                                     listen: false)
                                 .getScreenButtonState,
@@ -239,7 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             }),
                         // SoundMode
                         IconButtonWidget(
-                            label: 'Do not disturb',
+                            label: 'Turn on Do not disturb',
                             boolState: Provider.of<TogglesModel>(context,
                                     listen: false)
                                 .getDoNotDisturbButtonState,

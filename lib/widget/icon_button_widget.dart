@@ -48,7 +48,7 @@ class _IconButtonWidgetState extends State<IconButtonWidget> {
           widget.label,
           style: TextStyle(
             color: widget.mainColor,
-            fontSize: 15,
+            fontSize: 14,
           ),
         ),
       ],

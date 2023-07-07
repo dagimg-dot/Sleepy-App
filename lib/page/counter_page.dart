@@ -1,9 +1,9 @@
-import 'package:android_flutter_wifi/android_flutter_wifi.dart';
 import 'package:flutter/material.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:sleepy_app/provider/input_field_model.dart';
 import 'package:sleepy_app/provider/toggles_model.dart';
+import 'package:sleepy_app/services/android_controls.dart';
 import 'package:sleepy_app/widget/button_widget.dart';
 
 class CounterPage extends StatefulWidget {
@@ -20,16 +20,6 @@ class _CounterPageState extends State<CounterPage> {
   @override
   void initState() {
     super.initState();
-    init();
-  }
-
-  void init() async {
-    await AndroidFlutterWifi.init();
-  }
-
-  void toggleWifiButton() {
-    AndroidFlutterWifi.isWifiEnabled()
-        .then((value) => {if (value) AndroidFlutterWifi.disableWifi()});
   }
 
   @override
@@ -57,8 +47,7 @@ class _CounterPageState extends State<CounterPage> {
               NeonCircularTimer(
                 width: 200,
                 duration: Provider.of<InputFieldModel>(context, listen: false)
-                        .getChoosenMin *
-                    60,
+                        .getChoosenMin,
                 controller: controller,
                 isReverse: true,
                 backgroudColor: const Color.fromARGB(255, 140, 198, 240),
@@ -72,7 +61,8 @@ class _CounterPageState extends State<CounterPage> {
                 neumorphicEffect: true,
                 strokeWidth: 15,
                 onComplete: () => {
-                  if (!Provider.of<TogglesModel>(context, listen: false).getWifiButtonState) toggleWifiButton(),
+                  if (!Provider.of<TogglesModel>(context, listen: false).getWifiButtonState) AndroidControls.toggleWifiButton(),
+                  if (!Provider.of<TogglesModel>(context, listen: false).getBluetoothButtonState) AndroidControls.toggleBT(),
                   Navigator.pop(context),
                 },
                 innerFillGradient: LinearGradient(colors: [

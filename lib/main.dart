@@ -3,16 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sleepy_app/provider/toggles_model.dart';
-import 'package:sleepy_app/provider/input_field_model.dart'; 
+import 'package:sleepy_app/provider/input_field_model.dart';
 import 'package:sleepy_app/page/home_page.dart';
 
-void main() => runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => TogglesModel()),
-        ChangeNotifierProvider(create: (context) => InputFieldModel()),
-      ],
-      child: MyApp(),
-    ));
+void main() {
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => TogglesModel()),
+      ChangeNotifierProvider(create: (context) => InputFieldModel()),
+    ],
+    child: MyApp(),
+  ));
+}
 
 class MyApp extends StatelessWidget {
   @override
